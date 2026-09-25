@@ -1,7 +1,0 @@
-node_modules/
-.env
-*.log
-
-# Offline sync queue (encrypted patient data waiting to reach MongoDB) —
-# never belongs in version control.
-src/data/offline-queue.json
