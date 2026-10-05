@@ -1,0 +1,121 @@
+============================================================
+GRAM AROGYA CONNECT - HOW TO RUN
+============================================================
+A rural-first, offline-capable healthcare Progressive Web App (PWA)
+Language(s): JavaScript (Node.js), HTML/CSS
+Stack: Node.js, Express, Socket.io, MongoDB (optional), AES-256-GCM encryption
+
+Authors: Apoorv Mishra, Sanvi Mukherjee, Jiya Singh,
+         Bhoovi Verma, Hardik Bansal, Anant Sharma
+School of Computer Science (SOCS), UPES
+
+Demo video : https://youtu.be/txWWcKsw-vc?si=o3SVA_W5RhxmO-Qv
+Source code: https://github.com/apoorv-git-code/Gram-Arogya-Connect.git
+
+
+------------------------------------------------------------
+1. REQUIREMENTS
+------------------------------------------------------------
+- Node.js 22 or newer (Node.js 24 LTS recommended)
+    Download: https://nodejs.org
+    Check:    node --version
+- npm (installed together with Node.js)
+- A current web browser (Chrome, Edge, Firefox or Safari)
+- MongoDB - OPTIONAL. The app runs without it, using its built-in offline
+  queue and in-memory fallback data.
+
+
+------------------------------------------------------------
+2. INSTALL
+------------------------------------------------------------
+1. Extract the complete ZIP file.
+2. Open a terminal (Command Prompt / PowerShell on Windows, Terminal on
+   macOS/Linux) INSIDE the extracted project folder, i.e. the folder that
+   contains package.json.
+3. Install dependencies:
+
+       npm ci
+
+   (If this fails, run "npm install" instead.)
+
+
+------------------------------------------------------------
+3. CONFIGURE (.env file)
+------------------------------------------------------------
+Create a file named ".env" in the same folder as package.json with the
+following content:
+
+       ENCRYPTION_KEY=<your 64-character hex key>
+       PORT=4000
+       MONGODB_URI=
+
+Generate the ENCRYPTION_KEY by running this command and pasting the
+output after "ENCRYPTION_KEY=":
+
+       node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+Notes:
+- ENCRYPTION_KEY must be exactly 64 hexadecimal characters (AES-256).
+  If it is missing, the app still starts but uses a temporary random key,
+  and encrypted data will NOT be readable after a restart.
+- Leave MONGODB_URI empty to run without a database. To use MongoDB, set it
+  to your connection string, for example:
+       MONGODB_URI=mongodb://127.0.0.1:27017/gram-arogya-connect
+  or an Atlas connection string.
+- PORT is optional (default 4000).
+
+
+------------------------------------------------------------
+4. RUN
+------------------------------------------------------------
+       npm start
+
+Then open in your browser:
+
+       http://localhost:4000
+
+The doctor/PHC queue view is available at:
+
+       http://localhost:4000/doctor.html
+
+If port 4000 is already in use, run on another port:
+  - Windows (PowerShell):   $env:PORT=4001; npm start
+  - macOS / Linux:          PORT=4001 npm start
+
+
+------------------------------------------------------------
+5. RUNNING WITH MONGODB (RECOMMENDED)
+------------------------------------------------------------
+1. Install MongoDB: https://www.mongodb.com/docs/manual/installation/
+2. Start it, for example:
+       mongod --dbpath ./mongo-data
+3. Set MONGODB_URI in .env (see section 3) and run "npm start".
+
+
+------------------------------------------------------------
+6. QUICK TOUR (what to try)
+------------------------------------------------------------
+- Switch the language between English, Hindi and Marathi.
+- Register or find a patient record as an ASHA worker (voice-guided prompts
+  are available).
+- Log vitals and visit notes. With the network turned off, records are saved
+  locally and sync automatically when the connection returns.
+- Book a PHC appointment and watch the live queue update (Socket.io).
+- Open the app on a phone browser and use "Add to Home Screen" to install
+  it as a PWA.
+
+
+------------------------------------------------------------
+7. RUN THE SMOKE TEST (optional)
+------------------------------------------------------------
+       npm test
+
+
+------------------------------------------------------------
+8. TROUBLESHOOTING
+------------------------------------------------------------
+- "node is not recognized": install Node.js and reopen the terminal.
+- "Port 4000 is already in use": see section 4 for changing the port.
+- Warning about ENCRYPTION_KEY: set a valid 64-character hex key in .env.
+- Cannot connect to MongoDB: leave MONGODB_URI empty to run without it, or
+  check that mongod is running.
